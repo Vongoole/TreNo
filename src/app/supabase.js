@@ -34,3 +34,11 @@ export const addDiscomfortEvent = async (payload) => {
     }]).select()
 }
 
+export const updateDiscomfortEvent = async (payload) => {
+    const {id, date, events} = payload
+    return await supabase
+        .from('DiscomfortLog')
+        .update({date: date, events: JSON.stringify(events)})
+        .eq('id', id)
+        .select()
+}

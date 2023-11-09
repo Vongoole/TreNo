@@ -20,7 +20,7 @@ const Posts = ({canAddNew = false}) => {
             <Divider sx={{mt: 2}}/>
             <Box sx={{mt: 5, display: "flex", justifyItems: "center", justifyContent: "center", flexWrap: "wrap"}}>
                 {allPosts !== undefined ? allPosts.map(post =>
-                    <PostSingle date={post.date} events={post.events}/>) : ""}
+                    <PostSingle date={post.date} events={post.events} id={post.id}/>) : ""}
             </Box>
         </Box>
     )
