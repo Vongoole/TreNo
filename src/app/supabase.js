@@ -23,7 +23,7 @@ export const refreshSessionData = async () => {
 }
 
 export const getAllDiscomfortEvents = async () => {
-    return await supabase.from('DiscomfortLog').select('*').order("created_at", {ascending: false})
+    return await supabase.from('DiscomfortLog').select('*').order("date", {ascending: false})
 }
 
 export const addDiscomfortEvent = async (payload) => {

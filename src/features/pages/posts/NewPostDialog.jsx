@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React from "react"
 import {
     Box,
     Button,
@@ -13,10 +13,10 @@ import Discomfort from "./components/Discomfort";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addEditPostEvent,
-    addNewPostEvent, removeEditPostEvent,
+    addNewPostEvent, fetchAllPosts, removeEditPostEvent,
     removeNewPostEvent, resetEditPostData, resetNewPostData,
     saveNewPost, selectEditPostData, selectEditPostEvents, selectNewPostData,
-    selectNewPostEvents, selectPostById, setEditPostData, setEditPostDate, setEditPostEvent,
+    selectNewPostEvents, setEditPostDate, setEditPostEvent,
     setNewPostDate,
     setNewPostEvent, updateEditedPost
 } from "./PostsSlice";
@@ -59,7 +59,7 @@ const NewPostDialog = ({isOpen, onClose, type = "new", id = null}) => {
     const onSaveEventHandle = async () => {
         await config.onSave(newPostData)
         onClose()
-        window.location.reload(false)
+        dispatch(fetchAllPosts())
     }
 
     return (

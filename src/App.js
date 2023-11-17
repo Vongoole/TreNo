@@ -8,6 +8,7 @@ import Logout from "./features/pages/logout/Logout";
 import {checkSession} from "./features/pages/logout/UserSlice";
 import {fetchAllPosts} from "./features/pages/posts/PostsSlice";
 import LoadingIndicator from "./features/loadingIndicator/LoadingIndicator";
+import {useEffect} from "react";
 
 const customTheme = createTheme(theme)
 
@@ -16,13 +17,15 @@ function App() {
     const dispatch = useDispatch()
     const session = useSelector(state => state.user.session)
 
-    dispatch(fetchAllPosts())
+    useEffect(() => {
+        dispatch(fetchAllPosts())
+    }, [])
 
     if (!session) dispatch(checkSession())
 
     return (
         <ThemeProvider theme={customTheme}>
-            <Container maxWidth={"xl"}>
+            <Container maxWidth={"xxl"}>
                 <CssBaseline/>
                 <LoadingIndicator/>
                 <Logo/>

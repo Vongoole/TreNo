@@ -17,7 +17,15 @@ const emptyNewPostObj = {
     ]
 }
 
-const postsAdapter = createEntityAdapter()
+// order posts by date. Posts which have equal dates are ordered by Id instead
+const postsAdapter = createEntityAdapter({
+    select: (item) => item.date,
+    sortComparer: (a, b) => {
+        const parsedA = Date.parse(a.date)
+        const parsedB = Date.parse(b.date)
+        return parsedA === parsedB ? b.id - a.id : parsedB - parsedA
+    }
+})
 const initialState = postsAdapter.getInitialState({
     isLoading: false,
     newPost: emptyNewPostObj,
@@ -39,12 +47,8 @@ export const saveNewPost = createAsyncThunk("posts/saveNewPost", async (payload)
 })
 
 export const updateEditedPost = createAsyncThunk("posts/updateEditedPost", async (payload) => {
-    console.log("updating with payload", payload)
     const {data, error} = await updateDiscomfortEvent(payload)
-    console.log("update finito")
-    console.log(data)
-    console.log(error)
-    if(error !== null) return error
+    if (error !== null) return error
 
     return payload
 })
@@ -151,6 +155,8 @@ const postsSlice = createSlice({
             })
             .addCase(updateEditedPost.fulfilled, (state, action) => {
                 state.isLoading = false
+                const updatePayload = {...action.payload, events: JSON.stringify(action.payload.events)}
+                postsAdapter.setOne(state, updatePayload)
             })
             .addCase(updateEditedPost.rejected, (state, action) => {
                 state.isLoading = false
